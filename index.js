@@ -234,23 +234,23 @@ function managerQuestions() {
   
               {
                   type: "input",
-                  name: "internGithub",
-                  message: "Please enter the Interns Github username",
-                  validate: (userName) => {
-                  if (userName) {
+                  name: "internSchool",
+                  message: "Please enter the school the intern attended",
+                  validate: (school) => {
+                  if (school) {
                       return true;
                   } else {
-                  console.log("Please enter the correct Github name");
+                  console.log("Please enter the school the intern attended");
                       }
                   },
               },
           ])
           .then((answers) => {
             const intern = new Intern(
-              answers.engineerName,
-              answers.engineerID,
-              answers.engineerEmail,
-              answers.engineerGithub
+              answers.internName,
+              answers.internID,
+              answers.internEmail,
+              answers.internSchool
             );
     
         
