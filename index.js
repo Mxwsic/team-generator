@@ -1,5 +1,6 @@
-var fs = require('fs');
-var inquirer = require('inquirer');
+const fs = require("fs");
+const inquirer = require('inquirer');
+const path = require('path')
 
 const Manager = require("./lib/Manager.js");
 const Engineer = require("./lib/Engineer.js");
@@ -21,7 +22,7 @@ function managerQuestions() {
     inquirer.prompt([
         {
             type: "input",
-            name: "managersName",
+            name: "managerName",
             message: "Please input your managers name",
             validate: (answer) => {
                 if(answer) {
@@ -266,6 +267,7 @@ function managerQuestions() {
       fs.writeFileSync(distPathway, generateHTML(employeeArray), 'utf-8');
     };
 
-  managerQuestions();
+  
 };
 startUp();
+managerQuestions();
