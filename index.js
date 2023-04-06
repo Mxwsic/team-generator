@@ -158,7 +158,7 @@ function managerQuestions() {
                 validAnswer: (validEmail) => {
                   const emailValid = validEmail.match(/\S+@\S+\.\S+/);
                   const valid = emailValid ? true : () => 
-                  console.log("Enter valid email");
+                  console.log("Please enter a valid email address");
                 }
             },
 
@@ -170,13 +170,102 @@ function managerQuestions() {
                 if (userName) {
                     return true;
                 } else {
-                console.log(" Enter the correct GitHub username");
+                console.log("Please enter the correct GitHub username");
                     }
                 },
             },
         ])
-
+        .then((answers) => {
+          const engineer = new Engineer(
+            answers.engineerName,
+            answers.engineerID,
+            answers.engineerEmail,
+            answers.engineerGithub
+          );
+  
+      
+          employeeArray.push(engineer);
+          idArray.push(answers.engineerID);
+          nextEmployee();
+        });
+      }
+        function addIntern() {
+          inquirer.prompt([
+              {
+                  type: "input",
+            name: "internName",
+            message: "Please enter the Intern's name",
+            validate: (validAnswer) =>
+              validAnswer
+                ? true
+                : () => {
+                    console.log("Please enter a valid employee name");
+                    return false;
+                  },
+              },
+  
+              {
+                  type: 'input',
+                  name: 'internID',
+                  message: "Please enter the Intern's ID",
+                  validate: (answer) => {
+                    const pass = answer.match(/^[1-9]\d*$/);
+                    if (pass) {
+                      if (idArray.includes(answer)) {
+                        return 'Please input a different ID, this one is already taken';
+                      } else {
+                        return true;
+                      }
+                    }
+                    return 'Please enter a number greater than zero.';
+                  }
+              },
+  
+              {
+                  type: 'input',
+                  name: 'internEmail',
+                  message: 'Please enter the Interns email address',
+                  validAnswer: (validEmail) => {
+                    const emailValid = validEmail.match(/\S+@\S+\.\S+/);
+                    const valid = emailValid ? true : () => 
+                    console.log("Please enter a valid email address");
+                  }
+              },
+  
+              {
+                  type: "input",
+                  name: "internGithub",
+                  message: "Please enter the Interns Github username",
+                  validate: (userName) => {
+                  if (userName) {
+                      return true;
+                  } else {
+                  console.log("Please enter the correct Github name");
+                      }
+                  },
+              },
+          ])
+          .then((answers) => {
+            const intern = new Intern(
+              answers.engineerName,
+              answers.engineerID,
+              answers.engineerEmail,
+              answers.engineerGithub
+            );
+    
         
+            employeeArray.push(intern);
+            idArray.push(answers.internID);
+            nextEmployee();
+          });
     }
+    function renderTeam(){
+      if(!fs.existsSync(Directory)) {
+        fs.mkdirSync(Directory);
+      }
+      fs.writeFileSync(distPathway, generateHTML(employeeArray), 'utf-8');
+    };
 
+  managerQuestions();
 };
+startUp();
